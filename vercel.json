@@ -1,0 +1,5 @@
+{
+  "version": 2,
+  "comment": "This file is for reference only. Deploy frontend and backend separately using their respective vercel.json files in frontend/ and backend/ directories.",
+  "note": "See DEPLOYMENT.md for separate deployment instructions"
+}

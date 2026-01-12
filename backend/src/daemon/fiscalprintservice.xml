@@ -1,0 +1,33 @@
+<service>
+	<id>fiscalprintservice.exe</id>
+	<name>FiscalPrintService</name>
+	<description>Fiscal Print Background Service - Processes fiscal print jobs from the queue without needing a browser open.</description>
+	<executable>C:\Program Files\nodejs\node.exe</executable>
+	<argument>--harmony</argument>
+	<argument>--max_old_space_size=256</argument>
+	<argument>C:\Users\ardij\OneDrive\Desktop\Projects\argjira-crm\backend\node_modules\node-windows\lib\wrapper.js</argument>
+	<argument>--file</argument>
+	<argument>C:\Users\ardij\OneDrive\Desktop\Projects\argjira-crm\backend\src\fiscalPrintService.js</argument>
+	<argument>--scriptoptions=</argument>
+	<argument>--log</argument>
+	<argument>FiscalPrintService wrapper</argument>
+	<argument>--grow</argument>
+	<argument>0.5</argument>
+	<argument>--wait</argument>
+	<argument>2</argument>
+	<argument>--maxrestarts</argument>
+	<argument>3</argument>
+	<argument>--abortonerror</argument>
+	<argument>n</argument>
+	<argument>--stopparentfirst</argument>
+	<argument>undefined</argument>
+	<logmode>rotate</logmode>
+	<stoptimeout>30sec</stoptimeout>
+	<env name="NODE_ENV" value="production"/>
+	<serviceaccount>
+		<domain>RD</domain>
+		<user>LocalSystem</user>
+		<password></password>
+	</serviceaccount>
+	<workingdirectory>C:\Users\ardij\OneDrive\Desktop\Projects\argjira-crm\backend</workingdirectory>
+</service>
