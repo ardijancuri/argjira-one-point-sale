@@ -1,7 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { errorHandler } from './middleware/errorHandler.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Routes
 import authRouter from './routes/auth.js';
@@ -88,10 +93,26 @@ app.use('/api/cash', cashRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/reports', reportsRouter);
 
+// Serve frontend in production mode
+if (process.env.NODE_ENV === 'production') {
+  const frontendPath = path.join(__dirname, '../../frontend/dist');
+
+  // Serve static files from frontend/dist
+  app.use(express.static(frontendPath));
+
+  // Handle SPA routing - send all non-API requests to index.html
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    res.sendFile(path.join(frontendPath, 'index.html'));
+  });
+}
+
 // Error handling
 app.use(errorHandler);
 
-// 404 handler
+// 404 handler for API routes
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });

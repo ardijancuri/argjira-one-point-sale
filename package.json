@@ -8,8 +8,11 @@
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
     "build": "cd frontend && npm run build",
+    "build:production": "cd frontend && npm install && npm run build",
     "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
-    "start": "cd backend && npm start"
+    "install:production": "cd backend && npm install --omit=dev && cd ../frontend && npm install",
+    "start": "cd backend && npm start",
+    "start:production": "cd backend && npm run start:production"
   },
   "keywords": ["crm", "pos", "inventory", "invoicing"],
   "author": "",

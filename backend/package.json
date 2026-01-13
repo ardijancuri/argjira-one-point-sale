@@ -6,8 +6,10 @@
   "type": "module",
   "scripts": {
     "start": "node src/server.js",
+    "start:production": "set NODE_ENV=production && node src/server.js",
     "dev": "node --watch src/server.js",
-    "agent": "node agent/index.js"
+    "agent": "node agent/index.js",
+    "agent:production": "set NODE_ENV=production && node agent/index.js"
   },
   "keywords": [],
   "author": "",
