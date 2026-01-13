@@ -6,12 +6,6 @@ export const submitJob = async (req, res, next) => {
   try {
     const { type, payload, device_id, fiscal_sale_id, priority } = req.body;
 
-    // DEBUG: Log all incoming job submissions
-    console.log(`\n[Backend] ========== JOB SUBMISSION ==========`);
-    console.log(`[Backend] Type: ${type}`);
-    console.log(`[Backend] Items:`, JSON.stringify(payload?.items, null, 2));
-    console.log(`[Backend] =====================================\n`);
-
     // Validate job type
     const validTypes = ['receipt', 'storno', 'zreport', 'xreport', 'cash'];
     if (!validTypes.includes(type)) {
@@ -32,8 +26,6 @@ export const submitJob = async (req, res, next) => {
       priority
     });
 
-    console.log(`[Backend] Job created successfully: ID=${job.id}, Status=${job.status}`);
-
     res.status(201).json({
       success: true,
       job: {
@@ -44,7 +36,6 @@ export const submitJob = async (req, res, next) => {
       }
     });
   } catch (error) {
-    console.error(`[Backend] Job submission failed:`, error.message);
     next(error);
   }
 };

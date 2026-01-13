@@ -62,21 +62,38 @@ export class StockItem {
 
   static async update(id, data) {
     const { name, serial_number, quantity, karat, unit, price, category, tax_rate } = data;
+
+    // Prevent negative quantity
+    const safeQuantity = Math.max(0, parseFloat(quantity) || 0);
+
     const result = await pool.query(
-      `UPDATE stock_items 
-       SET name = $1, serial_number = $2, quantity = $3, karat = $4, unit = $5, 
+      `UPDATE stock_items
+       SET name = $1, serial_number = $2, quantity = $3, karat = $4, unit = $5,
            price = $6, category = $7, tax_rate = $8, updated_at = CURRENT_TIMESTAMP
        WHERE id = $9
        RETURNING *`,
-      [name, serial_number || null, quantity || 0, karat || null, unit || 'piece', 
+      [name, serial_number || null, safeQuantity, karat || null, unit || 'piece',
        price || 0, category || 'stoli', 0, id]
     );
     return result.rows[0];
   }
 
   static async updateQuantity(id, quantityChange) {
+    // First check if this would result in negative stock
+    if (quantityChange < 0) {
+      const current = await this.findById(id);
+      if (!current) throw new Error('Stock item not found');
+
+      const currentQty = parseFloat(current.quantity) || 0;
+      const newQty = currentQty + quantityChange;
+
+      if (newQty < 0) {
+        throw new Error(`Nuk ka mjaftueshëm stok për "${current.name}". Disponueshme: ${currentQty}, Kërkuar: ${Math.abs(quantityChange)}`);
+      }
+    }
+
     const result = await pool.query(
-      `UPDATE stock_items 
+      `UPDATE stock_items
        SET quantity = quantity + $1, updated_at = CURRENT_TIMESTAMP
        WHERE id = $2
        RETURNING *`,

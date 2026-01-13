@@ -125,32 +125,78 @@ export const getStatistics = async (req, res, next) => {
       }
     }
     
-    // Get all invoices with their items and stock item units
-    // For grams/pieces, only count 'out' type invoices (sales)
-    const result = await pool.query(`
-      SELECT 
-        COUNT(DISTINCT i.id) as total_invoices,
-        COALESCE(SUM(CASE WHEN i.type = 'out' AND si.unit = 'gram' THEN ii.quantity ELSE 0 END), 0) as total_grams,
-        COALESCE(SUM(CASE WHEN i.type = 'out' AND si.unit = 'piece' THEN ii.quantity ELSE 0 END), 0) as total_pieces,
+    // Get invoice totals (without item joins to avoid multiplication)
+    // Use corrected balance logic to match frontend display:
+    // - If balance > subtotal and total > subtotal, calculate: subtotal - (total - balance)
+    // - If balance > subtotal, cap at subtotal
+    // - Otherwise use balance as-is
+    const invoiceStatsResult = await pool.query(`
+      SELECT
+        COUNT(i.id) as total_invoices,
         COALESCE(SUM(i.subtotal), 0) as total_amount,
-        COALESCE(SUM(CASE WHEN i.balance <= 0.01 THEN i.subtotal ELSE 0 END), 0) as paid_amount,
-        COALESCE(SUM(CASE WHEN i.balance > 0.01 THEN i.balance ELSE 0 END), 0) as unpaid_amount
+        COALESCE(SUM(
+          CASE
+            WHEN (
+              CASE
+                WHEN i.balance > i.subtotal AND i.total > i.subtotal
+                  THEN GREATEST(0, i.subtotal - (i.total - i.balance))
+                WHEN i.balance > i.subtotal
+                  THEN i.subtotal
+                ELSE i.balance
+              END
+            ) <= 0.01 THEN i.subtotal
+            ELSE 0
+          END
+        ), 0) as paid_amount,
+        COALESCE(SUM(
+          CASE
+            WHEN (
+              CASE
+                WHEN i.balance > i.subtotal AND i.total > i.subtotal
+                  THEN GREATEST(0, i.subtotal - (i.total - i.balance))
+                WHEN i.balance > i.subtotal
+                  THEN i.subtotal
+                ELSE i.balance
+              END
+            ) > 0.01 THEN (
+              CASE
+                WHEN i.balance > i.subtotal AND i.total > i.subtotal
+                  THEN GREATEST(0, i.subtotal - (i.total - i.balance))
+                WHEN i.balance > i.subtotal
+                  THEN i.subtotal
+                ELSE i.balance
+              END
+            )
+            ELSE 0
+          END
+        ), 0) as unpaid_amount
       FROM invoices i
-      LEFT JOIN invoice_items ii ON i.id = ii.invoice_id
-      LEFT JOIN stock_items si ON ii.stock_item_id = si.id
       LEFT JOIN fiscal_sales fs ON i.id = fs.invoice_id
       WHERE ${whereClause}
     `, params);
 
-    const stats = result.rows[0];
-    
+    // Get grams/pieces separately (only for 'out' type invoices - sales)
+    const itemStatsResult = await pool.query(`
+      SELECT
+        COALESCE(SUM(CASE WHEN si.unit = 'gram' THEN ii.quantity ELSE 0 END), 0) as total_grams,
+        COALESCE(SUM(CASE WHEN si.unit = 'piece' THEN ii.quantity ELSE 0 END), 0) as total_pieces
+      FROM invoices i
+      LEFT JOIN invoice_items ii ON i.id = ii.invoice_id
+      LEFT JOIN stock_items si ON ii.stock_item_id = si.id
+      LEFT JOIN fiscal_sales fs ON i.id = fs.invoice_id
+      WHERE ${whereClause} AND i.type = 'out'
+    `, params);
+
+    const invoiceStats = invoiceStatsResult.rows[0];
+    const itemStats = itemStatsResult.rows[0];
+
     res.json({
-      totalInvoices: parseInt(stats.total_invoices) || 0,
-      totalGrams: parseFloat(stats.total_grams) || 0,
-      totalPieces: parseFloat(stats.total_pieces) || 0,
-      totalAmount: parseFloat(stats.total_amount) || 0,
-      paidAmount: parseFloat(stats.paid_amount) || 0,
-      unpaidAmount: parseFloat(stats.unpaid_amount) || 0
+      totalInvoices: parseInt(invoiceStats.total_invoices) || 0,
+      totalGrams: parseFloat(itemStats.total_grams) || 0,
+      totalPieces: parseFloat(itemStats.total_pieces) || 0,
+      totalAmount: parseFloat(invoiceStats.total_amount) || 0,
+      paidAmount: parseFloat(invoiceStats.paid_amount) || 0,
+      unpaidAmount: parseFloat(invoiceStats.unpaid_amount) || 0
     });
   } catch (error) {
     next(error);

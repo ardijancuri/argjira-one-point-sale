@@ -221,20 +221,12 @@ export default function POS() {
       }
 
       // Convert sale items to cart format
-      console.log('[POS Storno] Raw sale items from API:', saleItems);
-      const stornoCart = saleItems.map(item => {
-        console.log('[POS Storno] Processing item:', item);
-        console.log('[POS Storno]   item.price =', item.price, 'type:', typeof item.price);
-        const cartPrice = parseFloat(item.price) || 0;
-        console.log('[POS Storno]   parsed cartPrice =', cartPrice);
-        return {
-          id: item.stock_item_id,
-          name: item.stock_item_name || 'Artikull',
-          cartPrice: cartPrice,
-          cartQty: parseFloat(item.quantity) || 1,
-        };
-      });
-      console.log('[POS Storno] Final stornoCart:', stornoCart);
+      const stornoCart = saleItems.map(item => ({
+        id: item.stock_item_id,
+        name: item.stock_item_name || 'Artikull',
+        cartPrice: parseFloat(item.price) || 0,
+        cartQty: parseFloat(item.quantity) || 1,
+      }));
 
       // Validate cart items
       if (stornoCart.length === 0) {
@@ -243,9 +235,7 @@ export default function POS() {
       }
 
       // Print storno receipt (will be queued in queue mode)
-      console.log('[POS Storno] Calling printStornoReceipt with:', stornoCart);
       const printResult = await printStornoReceipt(stornoCart, selectedSaleForStorno.payment_method || 'cash');
-      console.log('[POS Storno] printStornoReceipt result:', printResult);
       if (!printResult.success) {
         showAlert(`Gabim në printim storno: ${printResult.error}`, 'error');
         return;
