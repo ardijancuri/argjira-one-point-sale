@@ -300,7 +300,7 @@ export default function Purchase() {
         <div className="bg-blue-50 rounded-lg p-3 sm:p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <div>
             <strong className="text-sm sm:text-base">Cash Disponibël:</strong>
-            <span className="text-xl sm:text-2xl font-bold text-primary ml-2">
+            <span className="text-base sm:text-lg font-bold text-primary ml-2">
               {formatCurrency(cashData?.data?.cash || 0)}
             </span>
           </div>

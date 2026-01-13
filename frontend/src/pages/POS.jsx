@@ -904,7 +904,7 @@ export default function POS() {
           </div>
           <div className="bg-purple-50 p-4 rounded-lg">
             <div className="text-sm text-gray-600 mb-2">Shuma Totale</div>
-            <div className="text-2xl font-bold text-purple-600">
+            <div className="text-lg font-bold text-purple-600">
               {formatCurrency(dailyStats.total_amount || 0)}
             </div>
           </div>

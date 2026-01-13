@@ -1178,7 +1178,7 @@ export default function Processing() {
             {/* PËRPUNIME Tile */}
             <div className="bg-white rounded-lg shadow-sm p-4 border-l-4" style={{ borderLeftColor: '#9333ea' }}>
               <div className="text-xs text-gray-600 mb-2">PËRPUNIME</div>
-              <div className="text-2xl font-bold text-gray-900">{statistics.totalProcessing || 0}</div>
+              <div className="text-lg font-bold text-gray-900">{statistics.totalProcessing || 0}</div>
               <div className="text-sm font-semibold text-purple-600 mt-1">
                 {formatNumber(statistics.totalQuantity || 0)}g
               </div>
@@ -1201,7 +1201,7 @@ export default function Processing() {
             {/* FITIMI TOTAL Tile */}
             <div className="bg-white rounded-lg shadow-sm p-4 border-l-4" style={{ borderLeftColor: '#10b981' }}>
               <div className="text-xs text-gray-600 mb-2">FITIMI TOTAL</div>
-              <div className="text-2xl font-bold text-green-600">
+              <div className="text-lg font-bold text-green-600">
                 {formatCurrency(statistics.totalProfit || 0)}
               </div>
             </div>

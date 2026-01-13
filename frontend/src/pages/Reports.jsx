@@ -32,7 +32,7 @@ function StatCard({ title, value, subtitle, icon: Icon, trend, trendUp, classNam
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm text-text-secondary mb-1">{title}</p>
-          <p className="text-xl font-semibold">{value}</p>
+          <p className="text-base font-semibold">{value}</p>
           {subtitle && <p className="text-xs text-text-secondary mt-1">{subtitle}</p>}
         </div>
         <div className="p-2 rounded-lg bg-primary/10">

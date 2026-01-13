@@ -132,41 +132,41 @@ export default function Stock() {
           {/* ARTIKUJ */}
           <div className="bg-white rounded-lg shadow-sm p-4 border-l-4" style={{ borderLeftColor: '#6b7280' }}>
             <div className="text-xs text-gray-500 uppercase mb-2">ARTIKUJ</div>
-            <div className="text-2xl font-bold text-gray-900">{stats.totalItems}</div>
+            <div className="text-lg font-bold text-gray-900">{stats.totalItems}</div>
           </div>
 
           {/* STOLI ARI */}
           <div className="bg-white rounded-lg shadow-sm p-4 border-l-4" style={{ borderLeftColor: '#f97316' }}>
             <div className="text-xs text-gray-500 uppercase mb-2">STOLI ARI</div>
-            <div className="text-2xl font-bold text-gray-900">{formatNumber(stats.stoliAri.quantity)}g</div>
+            <div className="text-lg font-bold text-gray-900">{formatNumber(stats.stoliAri.quantity)}g</div>
             <div className="text-sm mt-1" style={{ color: '#f97316' }}>{formatCurrency(stats.stoliAri.value)}</div>
           </div>
 
           {/* ARI I VJETËR */}
           <div className="bg-white rounded-lg shadow-sm p-4 border-l-4" style={{ borderLeftColor: '#92400e' }}>
             <div className="text-xs text-gray-500 uppercase mb-2">ARI I VJETËR</div>
-            <div className="text-2xl font-bold text-gray-900">{formatNumber(stats.ariVjeter.quantity)}g</div>
+            <div className="text-lg font-bold text-gray-900">{formatNumber(stats.ariVjeter.quantity)}g</div>
             <div className="text-sm mt-1" style={{ color: '#92400e' }}>{formatCurrency(stats.ariVjeter.value)}</div>
           </div>
 
           {/* AR INVESTUES */}
           <div className="bg-white rounded-lg shadow-sm p-4 border-l-4" style={{ borderLeftColor: '#f97316' }}>
             <div className="text-xs text-gray-500 uppercase mb-2">AR INVESTUES</div>
-            <div className="text-2xl font-bold text-gray-900">{formatNumber(stats.arInvestues.quantity)} copë</div>
+            <div className="text-lg font-bold text-gray-900">{formatNumber(stats.arInvestues.quantity)} copë</div>
             <div className="text-sm mt-1" style={{ color: '#f97316' }}>{formatCurrency(stats.arInvestues.value)}</div>
           </div>
 
           {/* DIAMANTA */}
           <div className="bg-white rounded-lg shadow-sm p-4 border-l-4" style={{ borderLeftColor: '#ec4899' }}>
             <div className="text-xs text-gray-500 uppercase mb-2">DIAMANTA</div>
-            <div className="text-2xl font-bold text-gray-900">{formatNumber(stats.diamanta.quantity)} copë</div>
+            <div className="text-lg font-bold text-gray-900">{formatNumber(stats.diamanta.quantity)} copë</div>
             <div className="text-sm mt-1" style={{ color: '#ec4899' }}>{formatCurrency(stats.diamanta.value)}</div>
           </div>
 
           {/* VLERA TOTALE */}
           <div className="bg-white rounded-lg shadow-sm p-4 border-l-4" style={{ borderLeftColor: '#10b981' }}>
             <div className="text-xs text-gray-500 uppercase mb-2">VLERA TOTALE</div>
-            <div className="text-2xl font-bold" style={{ color: '#10b981' }}>{formatCurrency(stats.totalValue)}</div>
+            <div className="text-lg font-bold" style={{ color: '#10b981' }}>{formatCurrency(stats.totalValue)}</div>
           </div>
         </div>
 
