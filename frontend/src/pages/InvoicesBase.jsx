@@ -277,13 +277,13 @@ export default function InvoicesBase({
             />
             <InvoiceStatCard
               title="GRAM TË SHITURA"
-              value={Math.round(parseFloat(statisticsResponse.data.totalGrams || 0)).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+              value={parseFloat(statisticsResponse.data.totalGrams || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               borderColor="#f97316"
               textColor="#f97316"
             />
             <InvoiceStatCard
               title="COPË TË SHITURA"
-              value={Math.round(parseFloat(statisticsResponse.data.totalPieces || 0)).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+              value={parseFloat(statisticsResponse.data.totalPieces || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               borderColor="#9333ea"
               textColor="#9333ea"
             />

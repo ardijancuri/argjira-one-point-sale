@@ -212,19 +212,19 @@ export const generateProcessingPDF = async (req, res, next) => {
     
     const companySettings = await CompanySettings.get();
     
-    // Helper function to format currency (no decimals)
+    // Helper function to format currency with 2 decimals
     const formatCurrency = (value) => {
-      return Math.round(parseFloat(value || 0)).toLocaleString('en-US', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
+      return parseFloat(value || 0).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
       });
     };
-    
-    // Helper function to format number (no decimals)
+
+    // Helper function to format number with 2 decimals
     const formatNumber = (value) => {
-      return Math.round(parseFloat(value || 0)).toLocaleString('en-US', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
+      return parseFloat(value || 0).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
       });
     };
     

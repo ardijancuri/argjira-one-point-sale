@@ -1072,14 +1072,11 @@ export default function InvoiceModal({ isOpen, onClose, invoiceId = null, defaul
                         <td className="py-2 px-2">
                           <input
                             type="number"
-                            step="1"
-                            value={item.price ? Math.round(parseFloat(item.price)) : ''}
+                            step="0.01"
+                            value={item.price || ''}
                             onChange={(e) => {
                               const value = e.target.value;
-                              // Only allow whole numbers
-                              if (value === '' || /^\d+$/.test(value)) {
-                                updateItem(index, 'price', value);
-                              }
+                              updateItem(index, 'price', value);
                             }}
                             className="w-full text-xs px-2 py-1 border border-border rounded focus:outline-none focus:ring-1 focus:ring-primary"
                           />

@@ -126,7 +126,7 @@ export const generatePDF = async (req, res, next) => {
 
     const stats = calculateStats();
     
-    // Helper function to format currency
+    // Helper function to format currency with 2 decimals
     const formatCurrency = (value) => {
       return parseFloat(value || 0).toLocaleString('en-US', {
         minimumFractionDigits: 2,
@@ -134,19 +134,11 @@ export const generatePDF = async (req, res, next) => {
       });
     };
 
-    // Helper function to format currency without decimals
-    const formatCurrencyNoDecimals = (value) => {
-      return Math.round(parseFloat(value || 0)).toLocaleString('en-US', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-      });
-    };
-
-    // Helper function to format whole number (no decimals)
-    const formatWholeNumber = (value) => {
-      return Math.round(parseFloat(value || 0)).toLocaleString('en-US', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
+    // Helper function to format number with 2 decimals
+    const formatNumber = (value) => {
+      return parseFloat(value || 0).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
       });
     };
 
@@ -241,39 +233,39 @@ export const generatePDF = async (req, res, next) => {
     // STOLI ARI
     doc.rect(summaryStartX, summaryY, summaryBoxWidth, summaryBoxHeight).stroke('#f97316');
     doc.fontSize(8).font('Helvetica-Bold').text('STOLI ARI', summaryStartX + 5, summaryY + 5, { width: summaryBoxWidth - 10 });
-    doc.fontSize(10).font('Helvetica-Bold').text(`${formatWholeNumber(stats.stoliAri.quantity)}g`, summaryStartX + 5, summaryY + 15, { width: summaryBoxWidth - 10 });
-    doc.fontSize(8).font('Helvetica-Bold').fillColor('#f97316').text(`${formatCurrencyNoDecimals(stats.stoliAri.value)} MKD`, summaryStartX + 5, summaryY + 30, { width: summaryBoxWidth - 10 });
+    doc.fontSize(10).font('Helvetica-Bold').text(`${formatNumber(stats.stoliAri.quantity)}g`, summaryStartX + 5, summaryY + 15, { width: summaryBoxWidth - 10 });
+    doc.fontSize(8).font('Helvetica-Bold').fillColor('#f97316').text(`${formatCurrency(stats.stoliAri.value)} MKD`, summaryStartX + 5, summaryY + 30, { width: summaryBoxWidth - 10 });
     doc.fillColor('black');
     
     // ARI I VJETËR
     const box2X = summaryStartX + summaryBoxWidth + summaryGap;
     doc.rect(box2X, summaryY, summaryBoxWidth, summaryBoxHeight).stroke('#92400e');
     doc.fontSize(8).font('Helvetica-Bold').text('ARI I VJETËR', box2X + 5, summaryY + 5, { width: summaryBoxWidth - 10 });
-    doc.fontSize(10).font('Helvetica-Bold').text(`${formatWholeNumber(stats.ariVjeter.quantity)}g`, box2X + 5, summaryY + 15, { width: summaryBoxWidth - 10 });
-    doc.fontSize(8).font('Helvetica-Bold').fillColor('#92400e').text(`${formatCurrencyNoDecimals(stats.ariVjeter.value)} MKD`, box2X + 5, summaryY + 30, { width: summaryBoxWidth - 10 });
+    doc.fontSize(10).font('Helvetica-Bold').text(`${formatNumber(stats.ariVjeter.quantity)}g`, box2X + 5, summaryY + 15, { width: summaryBoxWidth - 10 });
+    doc.fontSize(8).font('Helvetica-Bold').fillColor('#92400e').text(`${formatCurrency(stats.ariVjeter.value)} MKD`, box2X + 5, summaryY + 30, { width: summaryBoxWidth - 10 });
     doc.fillColor('black');
     
     // AR INVESTUES
     const box3X = box2X + summaryBoxWidth + summaryGap;
     doc.rect(box3X, summaryY, summaryBoxWidth, summaryBoxHeight).stroke('#f97316');
     doc.fontSize(8).font('Helvetica-Bold').text('AR INVESTUES', box3X + 5, summaryY + 5, { width: summaryBoxWidth - 10 });
-    doc.fontSize(10).font('Helvetica-Bold').text(`${formatWholeNumber(stats.arInvestues.quantity)} copë`, box3X + 5, summaryY + 15, { width: summaryBoxWidth - 10 });
-    doc.fontSize(8).font('Helvetica-Bold').fillColor('#f97316').text(`${formatCurrencyNoDecimals(stats.arInvestues.value)} MKD`, box3X + 5, summaryY + 30, { width: summaryBoxWidth - 10 });
+    doc.fontSize(10).font('Helvetica-Bold').text(`${formatNumber(stats.arInvestues.quantity)} copë`, box3X + 5, summaryY + 15, { width: summaryBoxWidth - 10 });
+    doc.fontSize(8).font('Helvetica-Bold').fillColor('#f97316').text(`${formatCurrency(stats.arInvestues.value)} MKD`, box3X + 5, summaryY + 30, { width: summaryBoxWidth - 10 });
     doc.fillColor('black');
     
     // DIAMANTA
     const box4X = box3X + summaryBoxWidth + summaryGap;
     doc.rect(box4X, summaryY, summaryBoxWidth, summaryBoxHeight).stroke('#ec4899');
     doc.fontSize(8).font('Helvetica-Bold').text('DIAMANTA', box4X + 5, summaryY + 5, { width: summaryBoxWidth - 10 });
-    doc.fontSize(10).font('Helvetica-Bold').text(`${formatWholeNumber(stats.diamanta.quantity)} copë`, box4X + 5, summaryY + 15, { width: summaryBoxWidth - 10 });
-    doc.fontSize(8).font('Helvetica-Bold').fillColor('#ec4899').text(`${formatCurrencyNoDecimals(stats.diamanta.value)} MKD`, box4X + 5, summaryY + 30, { width: summaryBoxWidth - 10 });
+    doc.fontSize(10).font('Helvetica-Bold').text(`${formatNumber(stats.diamanta.quantity)} copë`, box4X + 5, summaryY + 15, { width: summaryBoxWidth - 10 });
+    doc.fontSize(8).font('Helvetica-Bold').fillColor('#ec4899').text(`${formatCurrency(stats.diamanta.value)} MKD`, box4X + 5, summaryY + 30, { width: summaryBoxWidth - 10 });
     doc.fillColor('black');
     
     // VLERA TOTALE
     const box5X = box4X + summaryBoxWidth + summaryGap;
     doc.rect(box5X, summaryY, summaryBoxWidth, summaryBoxHeight).stroke('#10b981');
     doc.fontSize(8).font('Helvetica-Bold').text('VLERA TOTALE', box5X + 5, summaryY + 5, { width: summaryBoxWidth - 10 });
-    doc.fontSize(10).font('Helvetica-Bold').fillColor('#10b981').text(`${formatCurrencyNoDecimals(stats.totalValue)} MKD`, box5X + 5, summaryY + 20, { width: summaryBoxWidth - 10 });
+    doc.fontSize(10).font('Helvetica-Bold').fillColor('#10b981').text(`${formatCurrency(stats.totalValue)} MKD`, box5X + 5, summaryY + 20, { width: summaryBoxWidth - 10 });
     doc.fillColor('black');
     
     // Table Section
@@ -343,7 +335,7 @@ export const generatePDF = async (req, res, next) => {
       const produkti = item.name || '-';
       const serial = item.serial_number || '-';
       const karat = item.karat || '-';
-      const sasia = formatWholeNumber(item.quantity);
+      const sasia = formatNumber(item.quantity);
       const njesia = item.unit === 'gram' ? 'Gram' : 'Copë';
       const cmimi = `${formatCurrency(item.price)} MKD`;
       const totali = `${formatCurrency((parseFloat(item.quantity) || 0) * (parseFloat(item.price) || 0))} MKD`;

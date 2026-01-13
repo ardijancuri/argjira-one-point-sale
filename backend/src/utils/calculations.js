@@ -64,15 +64,15 @@ export function calculateProcessingDifference(qty, priceIn, priceOut) {
 }
 
 /**
- * Format currency
- * @param {number} value 
+ * Format currency with 2 decimal places
+ * @param {number} value
  * @returns {string} Formatted currency string
  */
 export function formatCurrency(value) {
-  if (value === undefined || value === null || isNaN(value)) return '0 MKD';
+  if (value === undefined || value === null || isNaN(value)) return '0.00 MKD';
   return parseFloat(value).toLocaleString('en-US', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
   }) + ' MKD';
 }
 

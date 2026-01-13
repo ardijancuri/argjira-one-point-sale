@@ -3,6 +3,7 @@ import Modal from '../Modal';
 import Input from '../Input';
 import Button from '../Button';
 import { useAlert } from '../../contexts/AlertContext';
+import { formatNumber } from '../../utils/format';
 
 export default function AddToCartModal({ isOpen, onClose, product, onAddToCart }) {
   const { showAlert } = useAlert();
@@ -61,7 +62,7 @@ export default function AddToCartModal({ isOpen, onClose, product, onAddToCart }
           <div className="bg-gray-50 p-3 rounded-lg text-sm text-text-secondary">
             <div className="mb-1">Stok i disponueshëm:</div>
             <div className="font-semibold text-text-primary">
-              {product.quantity} {product.unit === 'gram' ? 'g' : 'copë'}
+              {formatNumber(product.quantity)} {product.unit === 'gram' ? 'g' : 'copë'}
             </div>
           </div>
           

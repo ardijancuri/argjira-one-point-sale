@@ -69,9 +69,9 @@ export default function Chart({ labels, salesData, purchaseData, period, onPerio
         padding: 12,
         callbacks: {
           label: function (context) {
-            return context.dataset.label + ': ' + Math.round(context.parsed.y).toLocaleString('en-US', {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
+            return context.dataset.label + ': ' + parseFloat(context.parsed.y).toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
             }) + ' MKD';
           },
         },
@@ -82,7 +82,10 @@ export default function Chart({ labels, salesData, purchaseData, period, onPerio
         beginAtZero: true,
         ticks: {
           callback: function (value) {
-            return Math.round(value) + ' MKD';
+            return parseFloat(value).toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }) + ' MKD';
           },
         },
       },

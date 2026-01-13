@@ -607,8 +607,8 @@ export const generatePDF = async (req, res, next) => {
     
     items.forEach((item) => {
       const productName = item.product_name || item.stock_item_name || 'Artikull';
-      const quantity = Math.round(parseFloat(item.quantity) || 0).toString();
-      const price = parseFloat(item.price).toFixed(2);
+      const quantity = parseFloat(item.quantity || 0).toFixed(2);
+      const price = parseFloat(item.price || 0).toFixed(2);
       // Calculate total as subtotal (tax is 0, so total = subtotal)
       const itemTotal = parseFloat(item.subtotal) || (parseFloat(item.quantity) * parseFloat(item.price));
       const total = itemTotal.toFixed(2);

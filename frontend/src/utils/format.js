@@ -1,19 +1,23 @@
 /**
- * Format number without decimal places
+ * Format number with 2 decimal places (for quantities in grams)
  */
 export function formatNumber(value) {
-  if (value === undefined || value === null || isNaN(value)) return '0';
-  return Math.round(parseFloat(value)).toLocaleString('en-US', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0
+  if (value === undefined || value === null || isNaN(value)) return '0.00';
+  return parseFloat(value).toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
   });
 }
 
 /**
- * Format currency without decimal places
+ * Format currency with 2 decimal places (for MKD prices)
  */
 export function formatCurrency(value) {
-  return formatNumber(value) + ' MKD';
+  if (value === undefined || value === null || isNaN(value)) return '0.00 MKD';
+  return parseFloat(value).toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }) + ' MKD';
 }
 
 /**
