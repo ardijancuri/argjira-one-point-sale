@@ -15,6 +15,7 @@ import fiscalSalesRouter from './routes/fiscalSales.js';
 import fiscalPrintRouter from './routes/fiscalPrint.js';
 import cashRouter from './routes/cash.js';
 import dashboardRouter from './routes/dashboard.js';
+import reportsRouter from './routes/reports.js';
 
 dotenv.config();
 
@@ -85,6 +86,7 @@ app.use('/api/fiscal-sales', fiscalSalesRouter);
 app.use('/api/fiscal-print', fiscalPrintRouter);
 app.use('/api/cash', cashRouter);
 app.use('/api/dashboard', dashboardRouter);
+app.use('/api/reports', reportsRouter);
 
 // Error handling
 app.use(errorHandler);

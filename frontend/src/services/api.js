@@ -254,6 +254,32 @@ export const dashboardAPI = {
   getChartData: (period = 'ditor') => api.get(`/dashboard/chart?period=${period}`),
 };
 
+// Reports
+export const reportsAPI = {
+  getSales: (params = {}) => {
+    const queryParams = new URLSearchParams();
+    Object.keys(params).forEach(key => {
+      const value = params[key];
+      if (value !== null && value !== undefined && value !== '') {
+        queryParams.append(key, value);
+      }
+    });
+    return api.get(`/reports/sales?${queryParams}`);
+  },
+  getStock: () => api.get('/reports/stock'),
+  getFinancial: (params = {}) => {
+    const queryParams = new URLSearchParams();
+    Object.keys(params).forEach(key => {
+      const value = params[key];
+      if (value !== null && value !== undefined && value !== '') {
+        queryParams.append(key, value);
+      }
+    });
+    return api.get(`/reports/financial?${queryParams}`);
+  },
+  getSummary: () => api.get('/reports/summary'),
+};
+
 // Auth
 export const authAPI = {
   login: (data) => api.post('/auth/login', data),
